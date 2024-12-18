@@ -36,9 +36,9 @@ app.post('/players', (req, res) => {
 
 app.put('/players/:index', (req, res) => {
     const index = req.params.index;
-    players[index] = req.body;
+    players[index-1] = req.body;
     savePlayers();
-    res.json(players[index]);
+    res.json(players[index-1]);
 });
 
 app.delete('/players/:index', (req, res) => {
