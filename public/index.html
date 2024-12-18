@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneio de Padel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Ranking dos Padeleiros</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Nome</th>
+                <th>Pontos</th>
+                <th>Score</th>
+                <th>V</th>
+                <th>E</th>
+                <th>D</th>
+                <th>Jogos</th>
+            </tr>
+        </thead>
+        <tbody id="playerTable">
+            <!-- Jogadores serão adicionados aqui -->
+        </tbody>
+    </table>
+    <button id="showFormButton" style="display: none; margin: 20px auto;">Adicionar Novo Jogador</button>
+    
+
+    <div id="overlay" class="overlay" style="display: none;">
+        <div class="overlay-content">
+            <span class="close-button" id="closeFormButton">&times;</span>
+            <h2>Adicionar Novo Jogador</h2>
+            <form id="addPlayerForm">
+                <label for="playerName">Nome do Jogador:</label>
+                <input type="text" id="playerName" required>
+                <label for="playerWins">Vitórias:</label>
+                <input type="number" id="playerWins" required>
+                <label for="playerDraws">Empates:</label>
+                <input type="number" id="playerDraws" required>
+                <label for="playerLosses">Derrotas:</label>
+                <input type="number" id="playerLosses" required>
+                <button type="submit">Adicionar Jogador</button>
+            </form>           
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
