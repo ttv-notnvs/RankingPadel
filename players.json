@@ -1,47 +1,47 @@
 [
   {
     "id": 1,
-    "name": "Jojo",
-    "points": 10,
-    "wins": 5,
+    "name": "Nuno",
+    "points": 0,
+    "wins": 0,
     "draws": 0,
-    "losses": 5,
-    "games": 10
+    "losses": 0,
+    "games": 0
   },
   {
     "id": 2,
     "name": "Bruno",
-    "points": 18,
-    "wins": 9,
+    "points": 0,
+    "wins": 0,
     "draws": 0,
     "losses": 0,
-    "games": 9
+    "games": 0
   },
   {
     "id": 3,
-    "name": "Stig",
-    "points": 15,
-    "wins": 5,
-    "draws": 5,
-    "losses": 2,
-    "games": 12
+    "name": "Jojo",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 0,
+    "games": 0
   },
   {
     "id": 4,
-    "name": "Marcos",
-    "points": 13,
-    "wins": 6,
-    "draws": 1,
-    "losses": 1,
-    "games": 8
+    "name": "Stig",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 0,
+    "games": 0
   },
   {
     "id": 5,
-    "name": "Nuno",
-    "points": 17,
-    "wins": 8,
-    "draws": 1,
-    "losses": 1,
-    "games": 10
+    "name": "Marcos",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 0,
+    "games": 0
   }
 ]
