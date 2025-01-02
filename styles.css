@@ -1,0 +1,239 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Fundo branco */
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('fundopadel.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5; /* Ajuste a opacidade conforme necessário */
+    z-index: -1;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-container button.active {
+    background-color: #555; /* Cor de fundo para o botão ativo */
+    color: white; /* Cor do texto do botão ativo */
+    font-weight: bold; /* Negrito no botão ativo */
+}
+
+.button-container button:hover {
+    background-color: #555;
+}
+
+/* Estilos para a tabela */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
+    border-radius: 10px; /* Bordas arredondadas */
+    overflow: hidden; /* Para aplicar bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    table-layout: fixed; /* Define a largura fixa das colunas */
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Mais transparência na borda */
+}
+
+th {
+    background-color: #333; /* Tom cinzento escuro */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.05); /* Linhas pares com fundo cinza claro */
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Fundo cinza mais escuro ao passar o mouse */
+}
+
+/* Fundo cinzento escuro para a linha dos nomes da tabela */
+tr:nth-child(1) th {
+    background-color: #333 !important; /* Tom cinzento escuro */
+}
+
+/* Destaque para as colunas importantes */
+table th.important-column {
+    font-weight: bold !important; /* Negrito com maior especificidade */
+}
+
+/* Ajustar largura mínima da coluna do nome */
+th:nth-child(2), /* Nome */
+td:nth-child(2)  /* Nome */
+{
+    min-width: 200px; /* Define a largura mínima */
+    max-width: 300px; /* Define a largura máxima */
+    width: 20%; /* Define uma largura percentual fixa */
+    word-break: break-word; /* Quebra de palavras para nomes longos */
+}
+
+
+/* Ajustar largura das colunas restantes */
+th:nth-child(5), /* Vitórias */
+th:nth-child(6), /* Empates */
+th:nth-child(7), /* Derrotas */
+th:nth-child(8)  /* Jogos */
+{
+    width: 10%;
+}
+
+/* Estilos para o botão de adicionar novo jogador */
+#showFormButton {
+    display: none; /* Inicialmente escondido */
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #333; /* Tom cinzento escuro */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#showFormButton:hover {
+    background-color: #555; /* Tom cinzento mais claro ao passar o mouse */
+}
+
+/* Estilos para a overlay */
+.overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Ajuste a largura conforme necessário */
+    max-width: 500px; /* Largura máxima da overlay */
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.overlay-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Estilos para o botão de fechar */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Estilos para o formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilos para os elementos do formulário */
+form label, form input, form button {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px; /* Aumenta o espaço entre os elementos */
+}
+
+/* Estilos adicionais para o botão de gravar na overlay */
+form button {
+    background-color: #333; /* Tom cinzento escuro */
+    color: white;
+}
+
+form button:hover {
+    background-color: #555; /* Tom cinzento mais claro ao passar o mouse */
+}
+
+/* Estilos adicionais */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilos responsivos para dispositivos móveis */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    th:nth-child(2), /* Nome */
+    td:nth-child(2)  /* Nome */
+    {
+        min-width: 150px; /* Define a largura mínima */
+        max-width: none; /* Remove a largura máxima */
+        width: auto; /* Ajusta a largura automaticamente */
+        white-space: nowrap; /* Impede a quebra de linha em nomes longos */
+    }
+
+    th, td {
+        white-space: nowrap; /* Impede a quebra de linha em conteúdo */
+        overflow: hidden; /* Esconde o excesso de conteúdo */
+        text-overflow: ellipsis; /* Adiciona reticências ao conteúdo excedente */
+    }
+
+    th.important-column,
+    td.important-column {
+        white-space: normal; /* Permite quebra de linha nas colunas importantes */
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .button-container button {
+        margin: 5px 0;
+        width: 90%;
+    }
+
+    /* Ajusta a largura mínima da tabela para permitir rolagem horizontal */
+    .table-container {
+        overflow-x: auto;
+    }
+}
