@@ -9,10 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const playerLossesInput = document.getElementById('playerLosses');
     const submitButton = addPlayerForm.querySelector('button[type="submit"]');
     const overlayTitle = document.querySelector('.overlay-content h2');
+    const sportingBtn = document.getElementById('sportingBtn');
+    const PadelBeerBtn = document.getElementById('PadelBeerBtn');
+    const MeninasBtn = document.getElementById('MeninasBtn');
+    let currentRanking = ''; // Valor inicial para o ranking atual
+
     const editDataButton = document.createElement('button');
     editDataButton.id = 'editDataButton';
     editDataButton.textContent = 'Editar Dados';
-    editDataButton.style.display = 'block';
+    editDataButton.style.display = 'none';
     editDataButton.style.margin = '20px auto';
     editDataButton.style.padding = '10px 20px';
     editDataButton.style.backgroundColor = '#333';
@@ -39,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     buttonContainer.className = 'button-container';
     buttonContainer.appendChild(editDataButton);
     buttonContainer.appendChild(saveButton);
+    buttonContainer.appendChild(showFormButton); // Adiciona o botão de adicionar novo jogador
     document.body.appendChild(buttonContainer);
 
     let players = [];
@@ -47,53 +53,30 @@ document.addEventListener('DOMContentLoaded', function() {
     let isEditMode = false;
     const correctPassword = 'nvs'; // Defina a senha correta aqui
 
-    const loadPlayers = async () => {
+    function setActiveButton(button) {
+        // Remover a classe 'active' de todos os botões
+        const buttons = document.querySelectorAll('.button-container button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+    
+        // Adicionar a classe 'active' ao botão clicado
+        button.classList.add('active');
+    }
+
+    const loadPlayers = async (rankingFile) => {
         try {
-            const response = await fetch('http://localhost:3000/players');
+            const response = await fetch(`http://localhost:3000/${rankingFile}`);
             players = await response.json();
             renderTable(); // Re-renderizar a tabela com os dados atualizados
+            if (players.length > 0) {
+                document.getElementById('rankingTable').style.display = 'table';
+                editDataButton.style.display = 'block'; // Mostrar o botão "Editar Dados"
+            } else {
+                document.getElementById('rankingTable').style.display = 'none';
+                showFormButton.style.display = 'none';
+                editDataButton.style.display = 'none'; // Esconder o botão "Editar Dados"
+            }
         } catch (error) {
             console.error('Erro ao carregar jogadores:', error);
-        }
-    };
-
-    const savePlayer = async (player) => {
-        try {
-            const response = await fetch('http://localhost:3000/players', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(player)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Erro ao salvar jogador:', error);
-        }
-    };
-
-    const updatePlayer = async (id, player) => {
-        try {
-            const response = await fetch(`http://localhost:3000/players/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(player)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Erro ao atualizar jogador:', error);
-        }
-    };
-
-    const deletePlayer = async (index) => {
-        try {
-            await fetch(`http://localhost:3000/players/${index}`, {
-                method: 'DELETE'
-            });
-        } catch (error) {
-            console.error('Erro ao remover jogador:', error);
         }
     };
 
@@ -135,9 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const losses = parseInt(playerLossesInput.value);
         const points = (wins * 2) + draws;
         const games = wins + draws + losses;
-
+    
         const newPlayer = {
-            id: Date.now(), // Gera um ID único baseado na data/hora atual
+            id: Date.now(),
             name: playerNameInput.value,
             points: points,
             wins: wins,
@@ -145,14 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
             losses: losses,
             games: games
         };
-
+    
         savePlayer(newPlayer).then(() => {
             players.push(newPlayer);
             renderTable();
             addPlayerForm.reset();
             document.getElementById('overlay').style.display = 'none';
         });
-    }
+    }    
 
     function editPlayer(index) {
         const player = players[index];
@@ -203,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     showFormButton.addEventListener('click', function() {
         resetForm();
-        submitButton.textContent = 'Gravar';
+        submitButton.textContent = 'Adicionar Jogador';
         overlayTitle.textContent = 'Adicionar Novo Jogador';
         document.getElementById('overlay').style.display = 'block';
     });
@@ -222,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     cell.addEventListener('input', updateValues); // Adicionar evento para atualizar valores em tempo real
                 });
                 saveButton.style.display = 'block'; // Mostrar botão "Salvar Dados"
+                showFormButton.style.display = 'block'; // Mostrar botão "Adicionar Novo Jogador"
                 editDataButton.textContent = 'Sair de Edição';
                 isEditMode = true;
             } else {
@@ -233,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cell.removeEventListener('input', updateValues); // Remover evento para atualizar valores
             });
             saveButton.style.display = 'none'; // Esconder botão "Salvar Dados"
+            showFormButton.style.display = 'none'; // Esconder botão "Adicionar Novo Jogador"
             editDataButton.textContent = 'Editar Dados';
             isEditMode = false;
         }
@@ -276,17 +261,91 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             await Promise.all(updatedPlayers.map(player => updatePlayer(player.id, player)));
             alert('Dados salvos com sucesso!');
-            await loadPlayers(); // Carregar os dados atualizados e re-renderizar a tabela
+            await loadPlayers(currentRanking); // Carregar os dados atualizados e re-renderizar a tabela
         } catch (error) {
             console.error('Erro ao salvar dados:', error);
             alert('Ocorreu um erro ao salvar os dados.');
         }
     
         saveButton.style.display = 'none'; // Esconder botão "Salvar Dados" após salvar
+        showFormButton.style.display = 'none'; // Esconder botão "Adicionar Novo Jogador" após salvar    
         editDataButton.textContent = 'Editar Dados';
         isEditMode = false;
     });
+
+    const savePlayer = async (player) => {
+        let endpoint = '';
+        switch (currentRanking) {
+            case 'players':
+                endpoint = 'players';
+                break;
+            case 'players2':
+                endpoint = 'players2';
+                break;
+            case 'players3':
+                endpoint = 'players3';
+                break;
+            default:
+                throw new Error('Ranking inválido');
+        }
+        const response = await fetch(`http://localhost:3000/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(player),
+        });
+        return response.json();
+    };
     
+    const updatePlayer = async (id, player) => {
+        let endpoint = '';
+        switch (currentRanking) {
+            case 'players':
+                endpoint = 'players';
+                break;
+            case 'players2':
+                endpoint = 'players2';
+                break;
+            case 'players3':
+                endpoint = 'players3';
+                break;
+            default:
+                throw new Error('Ranking inválido');
+        }
+        const response = await fetch(`http://localhost:3000/${endpoint}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(player),
+        });
+        return response.json();
+    };    
+
+    sportingBtn.addEventListener('click', function() {
+        currentRanking = 'players';
+        loadPlayers('players');
+        setActiveButton(sportingBtn); // Define o botão como ativo
+    });
+
+    PadelBeerBtn.addEventListener('click', function() {
+        currentRanking = 'players2';
+        loadPlayers('players2');
+        setActiveButton(PadelBeerBtn); // Define o botão como ativo
+    });
+
+    MeninasBtn.addEventListener('click', function() {
+        currentRanking = 'players3';
+        loadPlayers('players3');
+        setActiveButton(MeninasBtn); // Define o botão como ativo
+    });
+
     addPlayerForm.addEventListener('submit', addPlayer);
-    loadPlayers();
 });
+
+// Esconder a tabela e botões ao carregar a página
+document.getElementById('rankingTable').style.display = 'none';
+document.getElementById('showFormButton').style.display = 'none';
+document.getElementById('editDataButton').style.display = 'none';
+document.getElementById('saveButton').style.display = 'none';

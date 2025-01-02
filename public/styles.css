@@ -22,6 +22,33 @@ body::before {
     z-index: -1;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-container button.active {
+    background-color: #555; /* Cor de fundo para o botão ativo */
+    color: white; /* Cor do texto do botão ativo */
+    font-weight: bold; /* Negrito no botão ativo */
+}
+
+.button-container button:hover {
+    background-color: #555;
+}
+
 /* Estilos para a tabela */
 table {
     width: 90%;
@@ -31,6 +58,7 @@ table {
     border-radius: 10px; /* Bordas arredondadas */
     overflow: hidden; /* Para aplicar bordas arredondadas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    table-layout: fixed; /* Define a largura fixa das colunas */
 }
 
 th, td {
@@ -59,6 +87,31 @@ tr:nth-child(1) th {
     background-color: #333 !important; /* Tom cinzento escuro */
 }
 
+/* Destaque para as colunas importantes */
+table th.important-column {
+    font-weight: bold !important; /* Negrito com maior especificidade */
+}
+
+/* Ajustar largura mínima da coluna do nome */
+th:nth-child(2), /* Nome */
+td:nth-child(2)  /* Nome */
+{
+    min-width: 200px; /* Define a largura mínima */
+    max-width: 300px; /* Define a largura máxima */
+    width: 20%; /* Define uma largura percentual fixa */
+    word-break: break-word; /* Quebra de palavras para nomes longos */
+}
+
+
+/* Ajustar largura das colunas restantes */
+th:nth-child(5), /* Vitórias */
+th:nth-child(6), /* Empates */
+th:nth-child(7), /* Derrotas */
+th:nth-child(8)  /* Jogos */
+{
+    width: 10%;
+}
+
 /* Estilos para o botão de adicionar novo jogador */
 #showFormButton {
     display: none; /* Inicialmente escondido */
@@ -76,49 +129,26 @@ tr:nth-child(1) th {
     background-color: #555; /* Tom cinzento mais claro ao passar o mouse */
 }
 
-/* Estilos para o botão de editar dados */
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Espaçamento entre os botões */
-}
-
-#editDataButton, #saveButton {
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#editDataButton:hover, #saveButton:hover {
-    background-color: #555; /* Tom cinzento mais claro ao passar o mouse */
-}
-
-
 /* Estilos para a overlay */
 .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Ajuste a largura conforme necessário */
+    max-width: 500px; /* Largura máxima da overlay */
+    height: auto;
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
-/* Estilos para o conteúdo da overlay */
 .overlay-content {
-    position: relative;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
     text-align: center;
     box-sizing: border-box;
 }
@@ -160,4 +190,50 @@ form button:hover {
 h1 {
     text-align: center;
     margin-top: 20px;
+}
+
+/* Estilos responsivos para dispositivos móveis */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    th:nth-child(2), /* Nome */
+    td:nth-child(2)  /* Nome */
+    {
+        min-width: 150px; /* Define a largura mínima */
+        max-width: none; /* Remove a largura máxima */
+        width: auto; /* Ajusta a largura automaticamente */
+        white-space: nowrap; /* Impede a quebra de linha em nomes longos */
+    }
+
+    th, td {
+        white-space: nowrap; /* Impede a quebra de linha em conteúdo */
+        overflow: hidden; /* Esconde o excesso de conteúdo */
+        text-overflow: ellipsis; /* Adiciona reticências ao conteúdo excedente */
+    }
+
+    th.important-column,
+    td.important-column {
+        white-space: normal; /* Permite quebra de linha nas colunas importantes */
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .button-container button {
+        margin: 5px 0;
+        width: 90%;
+    }
+
+    /* Ajusta a largura mínima da tabela para permitir rolagem horizontal */
+    .table-container {
+        overflow-x: auto;
+    }
 }
