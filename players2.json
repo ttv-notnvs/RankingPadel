@@ -1,0 +1,245 @@
+[
+  {
+    "id": 1,
+    "name": "Francisco Bargas",
+    "points": 64,
+    "wins": 28,
+    "draws": 8,
+    "losses": 16,
+    "games": 52
+  },
+  {
+    "id": 2,
+    "name": "Tiago Pinheiro",
+    "points": 63,
+    "wins": 27,
+    "draws": 9,
+    "losses": 8,
+    "games": 44
+  },
+  {
+    "id": 3,
+    "name": "Bruno Coelho",
+    "points": 57,
+    "wins": 23,
+    "draws": 11,
+    "losses": 13,
+    "games": 47
+  },
+  {
+    "id": 4,
+    "name": "João Rego",
+    "points": 54,
+    "wins": 24,
+    "draws": 6,
+    "losses": 16,
+    "games": 46
+  },
+  {
+    "id": 5,
+    "name": "Diogo Serrano",
+    "points": 54,
+    "wins": 22,
+    "draws": 10,
+    "losses": 19,
+    "games": 51
+  },
+  {
+    "id": 6,
+    "name": "Manuel Sequeira",
+    "points": 49,
+    "wins": 22,
+    "draws": 5,
+    "losses": 18,
+    "games": 45
+  },
+  {
+    "id": 7,
+    "name": "Miguel Silveira",
+    "points": 46,
+    "wins": 20,
+    "draws": 6,
+    "losses": 19,
+    "games": 45
+  },
+  {
+    "id": 8,
+    "name": "Pedro Serrano",
+    "points": 36,
+    "wins": 15,
+    "draws": 6,
+    "losses": 28,
+    "games": 49
+  },
+  {
+    "id": 9,
+    "name": "Guilherme Carvalho",
+    "points": 23,
+    "wins": 11,
+    "draws": 1,
+    "losses": 8,
+    "games": 20
+  },
+  {
+    "id": 10,
+    "name": "João Pedroso",
+    "points": 18,
+    "wins": 7,
+    "draws": 4,
+    "losses": 8,
+    "games": 19
+  },
+  {
+    "id": 11,
+    "name": "Tomás Eiró",
+    "points": 17,
+    "wins": 8,
+    "draws": 1,
+    "losses": 3,
+    "games": 12
+  },
+  {
+    "id": 12,
+    "name": "João Delfim",
+    "points": 13,
+    "wins": 5,
+    "draws": 3,
+    "losses": 18,
+    "games": 26
+  },
+  {
+    "id": 13,
+    "name": "Jaime Marques",
+    "points": 12,
+    "wins": 5,
+    "draws": 2,
+    "losses": 4,
+    "games": 11
+  },
+  {
+    "id": 14,
+    "name": "Rui (Manolo)",
+    "points": 12,
+    "wins": 5,
+    "draws": 2,
+    "losses": 5,
+    "games": 12
+  },
+  {
+    "id": 15,
+    "name": "André Tavares",
+    "points": 11,
+    "wins": 5,
+    "draws": 1,
+    "losses": 6,
+    "games": 12
+  },
+  {
+    "id": 16,
+    "name": "Vasco Sousa",
+    "points": 11,
+    "wins": 4,
+    "draws": 3,
+    "losses": 8,
+    "games": 15
+  },
+  {
+    "id": 17,
+    "name": "Bruno Gonçalves",
+    "points": 11,
+    "wins": 5,
+    "draws": 1,
+    "losses": 9,
+    "games": 15
+  },
+  {
+    "id": 18,
+    "name": "Francisco Verdasca",
+    "points": 7,
+    "wins": 3,
+    "draws": 1,
+    "losses": 0,
+    "games": 4
+  },
+  {
+    "id": 19,
+    "name": "António Santos",
+    "points": 4,
+    "wins": 1,
+    "draws": 2,
+    "losses": 1,
+    "games": 4
+  },
+  {
+    "id": 20,
+    "name": "André (Toni)",
+    "points": 4,
+    "wins": 1,
+    "draws": 2,
+    "losses": 1,
+    "games": 4
+  },
+  {
+    "id": 21,
+    "name": "Roger",
+    "points": 2,
+    "wins": 0,
+    "draws": 2,
+    "losses": 2,
+    "games": 4
+  },
+  {
+    "id": 22,
+    "name": "André Nunes",
+    "points": 2,
+    "wins": 1,
+    "draws": 0,
+    "losses": 3,
+    "games": 4
+  },
+  {
+    "id": 23,
+    "name": "Pedro Oliveira",
+    "points": 1,
+    "wins": 0,
+    "draws": 1,
+    "losses": 6,
+    "games": 7
+  },
+  {
+    "id": 24,
+    "name": "Miguel Marques",
+    "points": 1,
+    "wins": 0,
+    "draws": 1,
+    "losses": 7,
+    "games": 8
+  },
+  {
+    "id": 25,
+    "name": "André Teles",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 8,
+    "games": 8
+  },
+  {
+    "id": 26,
+    "name": "Daniel Moreira",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 4,
+    "games": 4
+  },
+  {
+    "id": 27,
+    "name": "Nuno Vale Silva",
+    "points": 0,
+    "wins": 0,
+    "draws": 0,
+    "losses": 4,
+    "games": 4
+  }
+]
