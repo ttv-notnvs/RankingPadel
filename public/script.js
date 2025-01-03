@@ -79,26 +79,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadPlayers = async (rankingFile) => {
         try {
             const response = await fetch(`/${rankingFile}`);
-            const responseBody = await response.text();
-            console.log('Resposta recebida:', responseBody);
-            players = JSON.parse(responseBody);
-            renderTable(); // Re-renderizar a tabela com os dados atualizados
-            if (players.length > 0) {
-                document.getElementById('rankingTable').style.display = 'table';
-                editDataButton.style.display = 'block'; // Mostrar o botão "Editar Dados"
-                if (!isEditMode && window.innerWidth <= 768) {
-                    shareButton.style.display = 'block'; // Mostrar o botão "Partilhar Classificação" na versão mobile fora do modo de edição
-                }
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            // Verifica se o conteúdo retornado é JSON
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.indexOf('application/json') !== -1) {
+                const data = await response.json();
+                console.log('Jogadores carregados:', data);
+                players = data;
+                renderTable();
             } else {
-                document.getElementById('rankingTable').style.display = 'none';
-                showFormButton.style.display = 'none';
-                editDataButton.style.display = 'none'; // Esconder o botão "Editar Dados"
-                shareButton.style.display = 'none'; // Esconder o botão "Partilhar Classificação"
+                throw new Error('Received content is not JSON');
             }
         } catch (error) {
             console.error('Erro ao carregar jogadores:', error);
-            }
+        }
     };
+    
             
 
     function renderTable() {
