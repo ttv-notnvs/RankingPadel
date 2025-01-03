@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #ffffff; /* Fundo branco */
-    margin: 0;
+    margin: 0 20px; /* Margens laterais de 20px */
     padding: 0;
     position: relative;
 }
@@ -28,15 +28,26 @@ body::before {
     margin-top: 20px;
 }
 
-.button-container button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #333;
+/* Estilos para o botão de adicionar novo jogador na página principal */
+.button-container button, 
+form button {
+    background-color: #333; /* Tom cinzento escuro */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Estilos para o botão de adicionar novo jogador na overlay */
+form button:hover, 
+.button-container button:hover {
+    background-color: #555; /* Tom cinzento mais claro ao passar o mouse */
 }
 
 .button-container button.active {
@@ -45,20 +56,20 @@ body::before {
     font-weight: bold; /* Negrito no botão ativo */
 }
 
-.button-container button:hover {
-    background-color: #555;
+/* Estilos para a tabela */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Permite a rolagem horizontal */
+    margin: 20px auto;
 }
 
-/* Estilos para a tabela */
 table {
-    width: 90%;
-    margin: 20px auto;
+    width: 100%;
     border-collapse: collapse;
     background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
     border-radius: 10px; /* Bordas arredondadas */
     overflow: hidden; /* Para aplicar bordas arredondadas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
-    table-layout: fixed; /* Define a largura fixa das colunas */
 }
 
 th, td {
@@ -92,25 +103,50 @@ table th.important-column {
     font-weight: bold !important; /* Negrito com maior especificidade */
 }
 
+/* Ajustar largura da primeira coluna (Ranking) */
+th:nth-child(1), /* Ranking */
+td:nth-child(1)  /* Ranking */
+{
+    min-width: 30px; /* Define a largura mínima */
+    max-width: 30px; /* Define a largura máxima */
+    width: 8%; /* Define uma largura fixa */
+}
+
 /* Ajustar largura mínima da coluna do nome */
 th:nth-child(2), /* Nome */
 td:nth-child(2)  /* Nome */
 {
-    min-width: 200px; /* Define a largura mínima */
-    max-width: 300px; /* Define a largura máxima */
-    width: 20%; /* Define uma largura percentual fixa */
+    min-width: 250px; /* Define a largura mínima */
+    max-width: 350px; /* Define a largura máxima */
+    width: 30%; /* Define uma largura percentual fixa */
     word-break: break-word; /* Quebra de palavras para nomes longos */
 }
 
+/* Ajustar largura das colunas Pontos e Score */
+th:nth-child(5) /* Pontos */
+{
+    width: 10%;
+}
+th:nth-child(6) /* Score */
+{
+    width: 12%;
+}
 
 /* Ajustar largura das colunas restantes */
 th:nth-child(5), /* Vitórias */
 th:nth-child(6), /* Empates */
-th:nth-child(7), /* Derrotas */
+th:nth-child(7) /* Derrotas */
+{
+    min-width: 30px; /* Define a largura mínima */
+    max-width: 30px; /* Define a largura máxima */
+    width: 10%; /* Define uma largura fixa */
+}
 th:nth-child(8)  /* Jogos */
 {
     width: 10%;
 }
+
+
 
 /* Estilos para o botão de adicionar novo jogador */
 #showFormButton {
@@ -194,6 +230,21 @@ h1 {
 
 /* Estilos responsivos para dispositivos móveis */
 @media (max-width: 768px) {
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container button {
+        margin: 10px 0;
+        width: 80%;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Permite rolagem horizontal */
+    }
+
     table {
         width: 100%;
         margin: 10px auto;
@@ -201,6 +252,9 @@ h1 {
 
     th, td {
         padding: 10px;
+        white-space: nowrap; /* Impede a quebra de linha em conteúdo */
+        overflow: hidden; /* Esconde o excesso de conteúdo */
+        text-overflow: ellipsis; /* Adiciona reticências ao conteúdo excedente */
     }
 
     th:nth-child(2), /* Nome */
@@ -209,31 +263,34 @@ h1 {
         min-width: 150px; /* Define a largura mínima */
         max-width: none; /* Remove a largura máxima */
         width: auto; /* Ajusta a largura automaticamente */
-        white-space: nowrap; /* Impede a quebra de linha em nomes longos */
-    }
-
-    th, td {
-        white-space: nowrap; /* Impede a quebra de linha em conteúdo */
-        overflow: hidden; /* Esconde o excesso de conteúdo */
-        text-overflow: ellipsis; /* Adiciona reticências ao conteúdo excedente */
     }
 
     th.important-column,
     td.important-column {
         white-space: normal; /* Permite quebra de linha nas colunas importantes */
     }
+}
 
-    .button-container {
-        flex-direction: column;
-    }
+/* Estilos para Captura de Imagem */
+.capture-mode table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border: 2px solid #333 !important;
+    background-color: #fff !important;
+}
 
-    .button-container button {
-        margin: 5px 0;
-        width: 90%;
-    }
+.capture-mode th, .capture-mode td {
+    padding: 10px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    border: 1px solid #333 !important;
+    background-color: #fff !important;
+    color: #000 !important;
+}
 
-    /* Ajusta a largura mínima da tabela para permitir rolagem horizontal */
-    .table-container {
-        overflow-x: auto;
-    }
+.capture-mode th {
+    background-color: #333 !important;
+    color: #fff !important;
 }

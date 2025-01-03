@@ -40,11 +40,25 @@ document.addEventListener('DOMContentLoaded', function() {
     saveButton.style.cursor = 'pointer';
     document.body.appendChild(saveButton);
 
+    const shareButton = document.createElement('button');
+    shareButton.id = 'shareButton';
+    shareButton.textContent = 'Partilhar Classificação';
+    shareButton.style.display = 'none';
+    shareButton.style.margin = '20px auto';
+    shareButton.style.padding = '10px 20px';
+    shareButton.style.backgroundColor = '#333';
+    shareButton.style.color = 'white';
+    shareButton.style.border = 'none';
+    shareButton.style.borderRadius = '5px';
+    shareButton.style.cursor = 'pointer';
+    document.body.appendChild(shareButton);
+
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
     buttonContainer.appendChild(editDataButton);
     buttonContainer.appendChild(saveButton);
     buttonContainer.appendChild(showFormButton); // Adiciona o botão de adicionar novo jogador
+    buttonContainer.appendChild(shareButton); // Adiciona o botão de partilhar classificação
     document.body.appendChild(buttonContainer);
 
     let players = [];
@@ -57,23 +71,27 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remover a classe 'active' de todos os botões
         const buttons = document.querySelectorAll('.button-container button');
         buttons.forEach(btn => btn.classList.remove('active'));
-    
+
         // Adicionar a classe 'active' ao botão clicado
         button.classList.add('active');
     }
 
     const loadPlayers = async (rankingFile) => {
         try {
-            const response = await fetch(`http://localhost:3000/${rankingFile}`);
+            const response = await fetch(`/${rankingFile}`);
             players = await response.json();
             renderTable(); // Re-renderizar a tabela com os dados atualizados
             if (players.length > 0) {
                 document.getElementById('rankingTable').style.display = 'table';
                 editDataButton.style.display = 'block'; // Mostrar o botão "Editar Dados"
+                if (!isEditMode && window.innerWidth <= 768) {
+                    shareButton.style.display = 'block'; // Mostrar o botão "Partilhar Classificação" na versão mobile fora do modo de edição
+                }
             } else {
                 document.getElementById('rankingTable').style.display = 'none';
                 showFormButton.style.display = 'none';
                 editDataButton.style.display = 'none'; // Esconder o botão "Editar Dados"
+                shareButton.style.display = 'none'; // Esconder o botão "Partilhar Classificação"
             }
         } catch (error) {
             console.error('Erro ao carregar jogadores:', error);
@@ -118,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const losses = parseInt(playerLossesInput.value);
         const points = (wins * 2) + draws;
         const games = wins + draws + losses;
-    
+
         const newPlayer = {
             id: Date.now(),
             name: playerNameInput.value,
@@ -128,14 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
             losses: losses,
             games: games
         };
-    
+
         savePlayer(newPlayer).then(() => {
             players.push(newPlayer);
             renderTable();
             addPlayerForm.reset();
             document.getElementById('overlay').style.display = 'none';
         });
-    }    
+    }
 
     function editPlayer(index) {
         const player = players[index];
@@ -206,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 saveButton.style.display = 'block'; // Mostrar botão "Salvar Dados"
                 showFormButton.style.display = 'block'; // Mostrar botão "Adicionar Novo Jogador"
+                shareButton.style.display = 'none'; // Esconder o botão "Partilhar Classificação"
                 editDataButton.textContent = 'Sair de Edição';
                 isEditMode = true;
             } else {
@@ -218,30 +237,33 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             saveButton.style.display = 'none'; // Esconder botão "Salvar Dados"
             showFormButton.style.display = 'none'; // Esconder botão "Adicionar Novo Jogador"
+            if (window.innerWidth <= 768) {
+                shareButton.style.display = 'block'; // Mostrar o botão "Partilhar Classificação" na versão mobile
+            }
             editDataButton.textContent = 'Editar Dados';
             isEditMode = false;
         }
     });
-    
+
     function updateValues() {
         const row = this.parentElement;
         const wins = parseInt(row.querySelector('td:nth-child(5)').textContent) || 0;
         const draws = parseInt(row.querySelector('td:nth-child(6)').textContent) || 0;
         const losses = parseInt(row.querySelector('td:nth-child(7)').textContent) || 0;
-        
+
         const points = (wins * 2) + draws;
         const totalGames = wins + draws + losses;
         const score = totalGames > 0 ? (points / totalGames).toFixed(2) : 0;
-    
+
         row.querySelector('td:nth-child(3)').textContent = points; // Atualizar pontos
         row.querySelector('td:nth-child(4)').textContent = score; // Atualizar score
         row.querySelector('td:nth-child(8)').textContent = totalGames; // Atualizar total de jogos
     }
-    
+
     saveButton.addEventListener('click', async function() {
         const rows = document.querySelectorAll('tbody tr');
         const updatedPlayers = [];
-    
+
         rows.forEach((row) => {
             const id = row.getAttribute('data-id'); // Obter o id do jogador
             const cells = row.querySelectorAll('td');
@@ -256,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             updatedPlayers.push(player);
         });
-    
+
         // Atualizar todos os jogadores no servidor
         try {
             await Promise.all(updatedPlayers.map(player => updatePlayer(player.id, player)));
@@ -266,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Erro ao salvar dados:', error);
             alert('Ocorreu um erro ao salvar os dados.');
         }
-    
+
         saveButton.style.display = 'none'; // Esconder botão "Salvar Dados" após salvar
         showFormButton.style.display = 'none'; // Esconder botão "Adicionar Novo Jogador" após salvar    
         editDataButton.textContent = 'Editar Dados';
@@ -288,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
             default:
                 throw new Error('Ranking inválido');
         }
-        const response = await fetch(`http://localhost:3000/${endpoint}`, {
+        const response = await fetch(`/${endpoint}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -297,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         return response.json();
     };
-    
+
     const updatePlayer = async (id, player) => {
         let endpoint = '';
         switch (currentRanking) {
@@ -313,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
             default:
                 throw new Error('Ranking inválido');
         }
-        const response = await fetch(`http://localhost:3000/${endpoint}/${id}`, {
+        const response = await fetch(`/${endpoint}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -321,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(player),
         });
         return response.json();
-    };    
+    };
 
     sportingBtn.addEventListener('click', function() {
         currentRanking = 'players';
@@ -342,10 +364,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     addPlayerForm.addEventListener('submit', addPlayer);
+
+    // Adicione a função de partilha atualizada
+    shareButton.addEventListener('click', function() {
+        const rankingTable = document.getElementById('rankingTable');
+        rankingTable.classList.add('capture-mode'); // Adicionar classe de captura
+    
+        html2canvas(rankingTable).then(canvas => {
+            rankingTable.classList.remove('capture-mode'); // Remover classe de captura após captura
+    
+            canvas.toBlob(blob => {
+                const file = new File([blob], 'ranking.png', { type: 'image/png' });
+                const filesArray = [file];
+    
+                if (navigator.share) {
+                    navigator.share({
+                        files: filesArray,
+                        title: 'Classificação dos Jogadores',
+                        text: 'Confira a classificação dos jogadores!'
+                    }).then(() => {
+                        console.log('Compartilhado com sucesso');
+                    }).catch(error => {
+                        console.error('Erro ao compartilhar:', error);
+                    });
+                } else {
+                    alert('A API de compartilhamento não é suportada neste dispositivo.');
+                }
+            });
+        });
+    });
+    
 });
 
 // Esconder a tabela e botões ao carregar a página
 document.getElementById('rankingTable').style.display = 'none';
 document.getElementById('showFormButton').style.display = 'none';
-document.getElementById('editDataButton').style.display = 'none';
-document.getElementById('saveButton').style.display = 'none';
