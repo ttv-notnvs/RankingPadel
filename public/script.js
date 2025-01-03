@@ -79,7 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadPlayers = async (rankingFile) => {
         try {
             const response = await fetch(`/${rankingFile}`);
-            players = await response.json();
+            const responseBody = await response.text();
+            console.log('Resposta recebida:', responseBody);
+            players = JSON.parse(responseBody);
             renderTable(); // Re-renderizar a tabela com os dados atualizados
             if (players.length > 0) {
                 document.getElementById('rankingTable').style.display = 'table';
@@ -95,8 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Erro ao carregar jogadores:', error);
-        }
+            }
     };
+            
 
     function renderTable() {
         playerTable.innerHTML = '';
