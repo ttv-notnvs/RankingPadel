@@ -13,8 +13,10 @@ const loadPlayers = () => {
     try {
         const data = fs.readFileSync('players.json', 'utf8');
         players = JSON.parse(data);
+        console.log('Jogadores carregados:', players);
     } catch (err) {
         players = [];
+        console.error('Erro ao carregar players:', err);
     }
 };
 
